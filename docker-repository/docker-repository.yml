@@ -1,0 +1,22 @@
+common:
+    loglevel: info
+    search_backend: "_env:SEARCH_BACKEND:"
+    sqlalchemy_index_database:
+        "_env:SQLALCHEMY_INDEX_DATABASE:sqlite:////tmp/docker-registry.db"
+
+prod:
+    loglevel: warn
+    storage: local
+    storage_path: /mnt/volume/prod
+    smtp_host: localhost
+    from_addr: docker@tacc.utexas.edu
+    to_addr: dooley@tacc.utexas.edu
+
+dev:
+    loglevel: debug
+    storage: local
+    storage_path: /mnt/volume/dev
+
+test:
+    storage: local
+    storage_path: /tmp/tmpdockertmp

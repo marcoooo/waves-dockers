@@ -1,0 +1,6 @@
+<FilesMatch "test_upload.bin">
+AuthName "ProtectedFiles"
+AuthType Basic
+AuthUserFile /var/www/.htpasswd
+require valid-user
+</FilesMatch>

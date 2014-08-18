@@ -1,0 +1,23 @@
+# iRODS personal configuration file.
+#
+
+# iRODS server host name:
+irodsHost 'localhost'
+
+# iRODS server port number:
+irodsPort 1247
+
+# Default storage resource name:
+irodsDefResource 'demoResc'
+
+# Home directory in iRODS:
+irodsHome '/iplant/home/rods'
+
+# Current directory in iRODS:
+irodsCwd '/iplant/home/rods'
+
+# Account name:
+irodsUserName 'rods'
+
+# Zone:
+irodsZone 'iplant'

@@ -1,0 +1,17 @@
+{
+instances               = 50
+cps                     = 1000 10
+socket_type             = stream
+wait                    = no
+user                    = root
+env                     += GLOBUS_LOCATION=/usr
+env += GLOBUS_HOSTNAME=docker.example.com
+env += GLOBUS_TCP_PORT_RANGE=50000,50010
+server                  = /usr/sbin/globus-gridftp-server
+server_args             = -c /etc/gridftp.conf
+per_source              = 10
+protocol                = tcp
+log_on_success          += DURATION
+nice                    = 10
+disable                 = no
+}
