@@ -18,13 +18,13 @@
 #
 ######################################################
 
-FROM centos:latest
+FROM centos:centos6
 
 MAINTAINER Rion Dooley <dooley@tacc.utexas.edu>
 
 RUN rpm -Uvh http://dl.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
 
-RUN yum update -y
+#RUN yum update -y
 RUN yum install -y openssh-server openssh-clients which python-pip
 RUN mkdir -p /var/run/sshd && \
     echo "root:root" | chpasswd
@@ -53,6 +53,8 @@ USER root
 RUN service sshd start
 RUN sed -ri 's/UsePAM yes/#UsePAM yes/g' /etc/ssh/sshd_config
 RUN sed -ri 's/#UsePAM no/UsePAM no/g' /etc/ssh/sshd_config
+
+RUN /bin/date
 
 # install supervisord
 RUN pip install "pip>=1.4,<1.5" --upgrade
