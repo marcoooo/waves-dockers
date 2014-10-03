@@ -1,11 +1,11 @@
 #
 # Copyright (c) 2014 Science Automation, Inc. http://www.scivm.com.  All rights reserved.
-# 
+#
 # email: contact@scivm.com
 # support:  http://support.scivm.com
 #
 # The MIT License (MIT)
-# 
+#
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
 # in the Software without restriction, including without limitation the rights
@@ -28,8 +28,8 @@
 FROM ubuntu:12.04
 
 RUN echo "deb http://archive.ubuntu.com/ubuntu precise main universe" > /etc/apt/sources.list
-RUN apt-get update
-RUN apt-get upgrade -y
+#RUN apt-get update
+#RUN apt-get upgrade -y
 
 # install ssh server
 RUN apt-get -y install openssh-server
