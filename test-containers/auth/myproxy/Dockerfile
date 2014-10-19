@@ -82,6 +82,11 @@ RUN openssl rsa -in mpgkey.pem -outform PEM -out new-mpgkey.pem
 ADD supervisord.conf /etc/supervisord.conf
 RUN mkdir /var/log/supervisor
 RUN chmod -R 777 /var/log/supervisor
+ADD docker_entrypoint.sh /docker_entrypoint.sh
+ADD create_hostcert /usr/local/bin/create_hostcert
 
+ENV MYPROXY_SERVER_DN "/C=US/O=Texas Advanced Computing Center/OU=Dev Certificate Authorities/OU=dockerCA/CN=host/docker.example.com"
+
+ENTRYPOINT [ "/docker_entrypoint.sh" ]
 EXPOSE 10389 22 7512 7513
-CMD echo "Trusted host cert: mpgcert.pem" && cat /myproxy-gateway/hostcerts/mpgcert.pem && echo "Trusted host key: new-mpgkey.pem" && cat /myproxy-gateway/hostcerts/new-mpgkey.pem && /usr/bin/supervisord
+CMD [ "/usr/bin/supervisord" ]

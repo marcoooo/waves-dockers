@@ -1,6 +1,6 @@
-## Agave DevOps MyProxy Container
+## Agave DevOps MyProxy Server
 
-This is a standard installation of MyProxy configured as an online CA for development use. The container has 4 users, a MyProxy server, and a SSH server running by default. The CA is a generic Globus Simple CA. This container can be safely used in leu of installing another MyProxy server in development environments to test login and data movement in GSI environments. For sample GridFTP and GSI-OpenSSH containers, please see `agaveapi/gridftp` and `agaveapi/gsissh` images respectively, or in `sso/gsi` for an orchestrated deployment.
+This is a standard installation of MyProxy configured as an online CA for development use. The container has 4 users, a MyProxy server, and a SSH server running by default. The CA is a generic Globus Simple CA. This container can be safely used in leu of installing another MyProxy server in development environments to test login and data movement in GSI environments. For sample GridFTP and GSI-OpenSSH containers, please see `agaveapi/gridftp` and `agaveapi/gsissh` images respectively.
 
 
 ## What's inside
@@ -46,14 +46,11 @@ The host cert and key of the MPG will be printed to stdout on startup. To just g
   > docker run -h docker.example.com -i agave-test-mpg cat /myproxy-gateway/hostcerts/new-mpgkey.pem > ~/.globus/hostkey.pem
   > chmod 600 ~/.globus/hostkey.pem
 
-To generate a new set of keys, run the following and paste the contents into the appropriate files.
+To generate a new set of host keys, use the included `create_hostcert` script by running the following command and paste the contents into the appropriate files.
 
-  > docker run -h docker.example.com -i \
-        agave-test-mpg \
-        grid-cert-request -host somehost.example.com -dir . -service somehost -prefix somehost -nopw && \
-        echo "globus" | grid-ca-sign -days 3650 -in somehostcert_request.pem -out somehostcert.pem && \
-        openssl rsa -in somehostkey.pem -outform PEM -out new-somehostkey.pem && \
-        echo "New host cert is" && cat somehostcert.pem && echo "New host key is: " && cat new-somehostkey.pem
+  > docker run -h docker.example.com -i -t \
+        agaveapi/myproxy \
+        create_hostcert somehost.example.com someservicename
 
 **NOTE** If you rebuild the container, the MyProxy CA cert will change and your keys will be invalidated. You will need to regenerate them afterwards.
 
