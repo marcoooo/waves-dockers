@@ -1,6 +1,6 @@
 ##  What machine is your central manager?
 
-CONDOR_HOST = docker.example.com
+CONDOR_HOST = $(FULL_HOSTNAME)
 
 ## Pool's short description
 

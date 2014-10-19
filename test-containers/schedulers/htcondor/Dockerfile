@@ -1,7 +1,7 @@
 ######################################################
 #
-# Agave DevOps Condor Server
-# Tag: agaveapi/condor
+# Agave DevOps HTCondor Server
+# Tag: agaveapi/htcondor
 #
 # This container provides a standard condor controller
 # and worker created on top of the agaveapi/centos-base
@@ -10,8 +10,7 @@
 # Usage:
 # docker run -h docker.example.com -i     \
 #            -p 10022:22                  \ # SSHD, SFTP
-#            -p 9618:9618                 \ # Condor
-#            agaveapi/condor
+#            agaveapi/htcondor
 #
 # note: you will need to make sure the file limit on
 # the docker host is set to at least 10240 in order
@@ -39,13 +38,16 @@ USER root
 
 # Install ht condor
 RUN curl -o /etc/yum.repos.d/htcondor-stable-rhel6.repo http://research.cs.wisc.edu/htcondor/yum/repo.d/htcondor-stable-rhel6.repo
-RUN yum -y --enablerepo=centosplus install condor
+RUN yum -y --enablerepo=centosplus install condor tar
 
-ADD condor/condor_config.local /etc/condor/condor_config.local
+ADD htcondor/condor_config.local /etc/condor/condor_config.local
+ADD htcondor/condor.submit /etc/condor/test.submit
+WORKDIR /etc/condor
 
 ADD supervisord.conf /etc/supervisord.conf
 RUN mkdir /var/log/supervisor
 RUN chmod -R 777 /var/log/supervisor
 
+VOLUME /var/lib/condor
 EXPOSE 10389 22 9618
 CMD /usr/bin/supervisord
