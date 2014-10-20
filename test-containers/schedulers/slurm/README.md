@@ -1,6 +1,6 @@
 # Agave DevOps Slurm  Container
 
-This is a standard installation of MyProxy configured as an online CA for development use. The container has 4 users, a MyProxy server, and a SSH server running by default. The CA is a generic Globus Simple CA. This container can be safely used in leu of installing another MyProxy server in development environments to test login and data movement in GSI environments. For sample GridFTP and GSI-OpenSSH containers, please see the corresponding README.md files in `storage/gridftp` and `logins/gsissh folders` respectively, or in `sso/gsi` for an orchestrated deployment.
+This is a development install of the Slurm scheduler running as a controller and worker. This image can be treated like a single node cluster for testing purposes.
 
 ## What is Slurm
 

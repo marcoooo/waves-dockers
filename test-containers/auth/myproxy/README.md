@@ -54,8 +54,8 @@ To generate a new set of host keys, use the included `create_hostcert` script by
 
 **NOTE** If you rebuild the container, the MyProxy CA cert will change and your keys will be invalidated. You will need to regenerate them afterwards.
 
-## Building Containers
+## How to build this image
 
 Build from this directory using the enclosed Dockerfile
 
-  $ docker build -rm -t agaveapi/myproxy .
+  > docker build -rm -t agaveapi/myproxy .

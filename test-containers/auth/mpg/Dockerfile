@@ -1,9 +1,22 @@
 ######################################################
 #
 # Agave MyProxy Server
-# Tag: agave-test-myproxy
+# Tag: agaveapi/myproxy-gateway
 #
-# https://bitbucket.org/taccaci/agave-environment
+# This container provides a standard myproxy server running
+# on port 7512 for the test users created in the agaveapi/centos-base
+# image. It also provides a myproxy server configured with a
+# trust relationship runing on port 7513. Both servers are fronted
+# by a myproxy gateway instance.
+#
+# Usage:
+# docker run -h docker.example.com -i     \
+#            -p 443:443                   \ # Apache SSL proxy to MyProxy Gateway
+#            -p 8080:8080                 \ # MyProxy Gateway
+#            -p 7512:7512                 \ # MyProxy CA + PAM
+#            -p 7513:7513                 \ # MyProxy CA with trust relationship
+#            -p 10022:22                  \ # SSHD, SFTP
+#            agaveapi/myproxy
 #
 # This container provides a standard myproxy server running
 # on ports 7512 configured to issue certs via pam-based
@@ -15,7 +28,7 @@ FROM agaveapi/myproxy
 MAINTAINER Rion Dooley <dooley@tacc.utexas.edu>
 
 #mpg dependencies
-RUN yum -y install java-1.6.0-sun-compat git httpd mod_ssl
+RUN yum -y install java-1.7.0-openjdk-devel git httpd mod_ssl tar
 
 # install Maven
 WORKDIR /usr/share
@@ -34,11 +47,6 @@ RUN git pull; git remote
 ADD maven/settings.xml /root/.m2/settings.xml
 
 # generate and sign a service cert
-#RUN mkdir hostcerts
-#WORKDIR /myproxy-gateway/hostcerts
-#RUN if [ ! -e mpgcert.pem ]; then grid-cert-request -host docker.example.com -dir . -service mpg -prefix mpg -nopw; fi
-#RUN if [ ! -e mpgcert.pem ]; then echo "globus" | grid-ca-sign -days 3650 -in mpgcert_request.pem -out mpgcert.pem; fi
-#RUN if [ ! -e new-mpgkey.pem ]; then openssl rsa -in mpgkey.pem -outform PEM -out new-mpgkey.pem; fi
 ENV export MPG_SUBJECT=$(grid-cert-info -file myproxy-gateway/hostcerts/mpgcert.pem -subject) && \
     sed -ri 's/MPG_SUBJECT/$MPG_SUBJECT</g' /root/.m2/settings.xml && \
     cat /root/.m2/settings.xml
@@ -57,6 +65,10 @@ ADD apache/htaccess /var/www/html/.htaccess
 
 ADD supervisord.conf /etc/supervisord.conf
 RUN chmod -R 777 /var/log/supervisor
+ADD docker_entrypoint.sh /docker_entrypoint.sh
 
+ENV MYPROXY_SERVER_DN "/C=US/O=Texas Advanced Computing Center/OU=Dev Certificate Authorities/OU=dockerCA/CN=host/docker.example.com"
+
+ENTRYPOINT [ "/docker_entrypoint.sh" ]
 EXPOSE 10389 22 7512 7513 8080 8090 443 80
-CMD echo "MyProxy Gateway host cert: mpgcert.pem" && cat /myproxy-gateway/hostcerts/mpgcert.pem && echo "MyProxy Gateway host key: new-mpgkey.pem" && cat /myproxy-gateway/hostcerts/new-mpgkey.pem && /usr/bin/supervisord
+CMD ["/usr/bin/supervisord"]
