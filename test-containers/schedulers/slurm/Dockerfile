@@ -30,16 +30,17 @@ ADD ssh/id_rsa.pub /home/slurm/.ssh/authorized_keys
 USER root
 
 # Install slurm
-RUN yum -y install gcc gcc-g++ make munge munge-devel httpd bzip2 vim-minimal tar perl
+RUN yum -y install gcc gcc-g++ make munge munge-devel httpd bzip2 vim-minimal tar perl git
 
 # Configure munge
 RUN create-munge-key
 
 # Install slurm
 WORKDIR /usr/local
-RUN curl -O http://www.schedmd.com/download/latest/slurm-14.03.6.tar.bz2
-RUN tar --bzip -x -f slurm-14.03.6.tar.bz2
-WORKDIR /usr/local/slurm-14.03.6
+RUN git clone https://github.com/SchedMD/slurm.git
+WORKDIR /usr/local/slurm
+RUN git checkout tags/slurm-14-03-9-1
+
 RUN ./configure --prefix=/usr --sysconfdir=/etc/sysconfig/slurm --with-mysql_config=/usr/local/bin
 RUN make
 RUN make install
