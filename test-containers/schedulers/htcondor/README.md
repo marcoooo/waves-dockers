@@ -48,8 +48,8 @@ If you would like to persist logging to the local system, you can mount the expo
   bash-4.1# su - testuser -c "condor_submit /etc/condor/test.submit"
   bash-4.1# condor_q
 
-## Building the image
+## How to build the image
 
 Build from this directory using the enclosed Dockerfile
 
-  docker build -rm -t agaveapi/htcondor .
+  > docker build -rm -t agaveapi/htcondor .

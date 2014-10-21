@@ -21,15 +21,15 @@ This development container will create an admin user and three users for testing
 
 ### To run the container
 
-  > docker run -h docker.example.com \
+  > docker run -d -h docker.example.com \
     -p 10022:22     \ # SSHD, SFTP
     --privileged \ # run in privileged mode
-    --rm -d --name torque
+    --name torque \
     agaveapi/torque
 
 This will start the container with a supervisor process which will run a sshd server on exposed port 22 and the Torque scheduler running as both a controller and worker node.
 
-    NOTE: You **must** run this image with teh `--privileged` flag due to Torque's requirement for unlimited `ulimit` settings.
+    NOTE: You **must** run this image with the `--privileged` flag due to Torque's requirement for unlimited `ulimit` settings.
 
 ### To submit jobs
 
@@ -48,7 +48,7 @@ You will need to create an interactive session in order to run jobs in this cont
 In either situation, once you have a session in the container, you can submit jobs using the `sbatch` command. A test script is included in the image at `/home/testuser/slurm.submit`. You can submit this script to verify the
 scheduler is working properly.
 
-  > qsub /home/testuser/torque.submit
+  > sbatch /home/testuser/torque.submit
 
 
 ## How to build the image

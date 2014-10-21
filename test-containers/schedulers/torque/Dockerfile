@@ -1,17 +1,18 @@
 ######################################################
 #
-# Agave DevOps PBS Server
-# Tag: agaveapi/pbs
+# Agave DevOps Torque Server
+# Tag: agaveapi/torque
 #
 # This container provides a standard pbs controller
 # and worker created on top of the agaveapi/centos-base
 # image. Nothing special here.
 #
 # Usage:
-# docker run -h docker -i     \
+# docker run -h docker -i -rm             \
 #            -p 10022:22                  \ # SSHD, SFTP
 #            -p 9618:9618                 \ # PBS
-#            agaveapi/pbs
+#            --privileged
+#            agaveapi/torque
 #
 # https://bitbucket.org/taccaci/agave-environment
 #

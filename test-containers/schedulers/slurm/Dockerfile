@@ -8,10 +8,10 @@
 # image. Nothing special here.
 #
 # Usage:
-# docker run -h docker.example.com -i     \
+# docker run -h docker.example.com -i -t  \
 #            -p 10022:22                  \ # SSHD, SFTP
 #            -p 9618:9618                 \ # Slurm
-#            agaveapi/slurm
+#            --rm agaveapi/slurm
 #
 # https://bitbucket.org/taccaci/agave-environment
 #
