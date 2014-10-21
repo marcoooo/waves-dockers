@@ -1,10 +1,11 @@
-# Agave DevOps GridEngine Container
+# Agave DevOps GridEngine Server
 
-This is a development install of the GridEngine scheduler running as a scheduler and worker. This image can be treated like a single node cluster for testing purposes.
+This is a development install of the GridEngine scheduler running as a master and execution host. This image can be treated like a single node cluster for testing purposes.
 
 ## What is GridEngine
 
 Open Grid Scheduler/Grid Engine is a commercially supported open-source batch-queuing system for distributed resource management. OGS/GE is based on Sun Grid Engine, and maintained by the same group of external (i.e. non-Sun) developers who started contributing code since 2001.
+
 For more information on GridEngine, consult the official [website](http://gridscheduler.sourceforge.net/).
 
 ## What's inside
@@ -22,7 +23,7 @@ This development container will create an admin user and three users for testing
 
   > docker run -d -h docker.example.com \
     -p 10022:22     \ # SSHD, SFTP
-    --name gridengine \ 
+    --name gridengine \
     agaveapi/gridengine
 
 This will start the container with a supervisor process which will run a sshd server on exposed port 22 and the GridEngine scheduler running as both a controller and worker node.

@@ -1,6 +1,6 @@
 ######################################################
 #
-# Agave iRODS + PAM Server
+# Agave IRODS + PAM Server
 # Tag: agaveapi/irods-pam
 #
 # This is the iRODS server configured with PAM support
@@ -13,7 +13,7 @@
 # docker run -h docker.example.com -i     \
 #            -p 1247:1247                 \ # IRODS + PAM
 #            -p 10022:22                  \ # SSHD, SFTP
-#            agaveapi/irods
+#            agaveapi/irods-pam
 #
 # https://bitbucket.org/taccaci/agave-environment
 #
