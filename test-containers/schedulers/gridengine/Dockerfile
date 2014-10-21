@@ -45,12 +45,7 @@ RUN echo "$(grep "$HOSTNAME" /etc/hosts | awk '{print $1;}') docker" >> /etc/hos
     cd /usr/share/gridengine/default/common && \
     source /usr/share/gridengine/default/common/settings.sh && \
     echo docker > act_qmaster && \
-    #echo docker >> act_qmaster && \
     qconf -Mhgrp /usr/share/gridengine/hostgroup.conf && \
-    #qconf -ah localhost && \
-    #qconf -ah docker && \
-    #qconf -as localhost && \
-    #qconf -as docker && \
     qconf -Aq /usr/share/gridengine/debug.queue && \
     qconf -Mq /usr/share/gridengine/debug.queue
 
@@ -62,6 +57,7 @@ ADD supervisord.conf /etc/supervisord.conf
 RUN mkdir /var/log/supervisor
 RUN chmod -R 777 /var/log/supervisor
 RUN unset HOSTNAME
+
 # Add entrypoint script to set the current hostname so the scheduler can communicat
 ADD docker_entrypoint.sh /docker_entrypoint.sh
 
