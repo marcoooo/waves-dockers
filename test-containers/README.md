@@ -3,19 +3,20 @@
 
 ## Container users
 
-  root:root
-  testuser:testuser
-  testshareuser:testshareuser
-  testotheruser:testotheruser
+  root:root  
+  testuser:testuser  
+  testshareuser:testshareuser  
+  testotheruser:testotheruser  
 
 ## Building Containers
 
 Each container directory contains a separate Dockerfile which will build the desired container. The agave-test-base container's Dockerfile is in the root folder and must be build and tagged first prior to building any other containers.
 
-  $ docker build -rm -t agave-test-base .
-
+  $ docker build -rm -t agave-test-base .  
+  
 ## Running Containers
 
+```
   $ docker run -h docker.example.com -i \
     -p 10022:22     \ # SSHD, SFTP
     -p 59153:49153  \ # Supervisord
@@ -28,6 +29,7 @@ Each container directory contains a separate Dockerfile which will build the des
     [-p 10443:443]  \ # HTTPS
     [-p 10080:80]   \ # HTTP
     <container name>
+```
 
 ## Orchestrating Infrastructure
 
