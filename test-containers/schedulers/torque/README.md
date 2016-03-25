@@ -21,11 +21,9 @@ This development container will create an admin user and three users for testing
 
 ### To run the container
 
-  > docker run -d -h docker.example.com \
-    -p 10022:22     \ # SSHD, SFTP
-    --privileged \ # run in privileged mode
-    --name torque \
-    agaveapi/torque
+```
+docker run -d -h docker.example.com -p 10022:22 --privileged --name torque agaveapi/torque
+```
 
 This will start the container with a supervisor process which will run a sshd server on exposed port 22 and the Torque scheduler running as both a controller and worker node.
 
@@ -37,22 +35,27 @@ You will need to create an interactive session in order to run jobs in this cont
 
 * First, you can start a container with the default command and ssh in.
 
-  > docker run -h docker.example.com -p 10022:22 --rm -d --name torque --privileged agaveapi/torque
-  > ssh -p 10022 testuser@docker.example.com
+```
+docker run -h docker.example.com -p 10022:22 -d --name torque --privileged agaveapi/torque    
+ssh -p 10022 testuser@docker.example.com
+```
 
 * Second, you can run an interactive container and start the services yourself.
 
-  > docker run -h docker.example.com -p 10022:22 --rm -d --name torque --privileged agaveapi/torque bash
-  bash-4.1# /usr/bin/supervisord &
-
-In either situation, once you have a session in the container, you can submit jobs using the `sbatch` command. A test script is included in the image at `/home/testuser/slurm.submit`. You can submit this script to verify the
+```
+docker run -h docker.example.com -p 10022:22 -i -t --name torque --privileged agaveapi/torque bash
+bash-4.1# /usr/bin/supervisord &
+```
+In either situation, once you have a session in the container, you can submit jobs using the `qsub` command. A test script is included in the image at `/home/testuser/torque.submit`. You can submit this script to verify the
 scheduler is working properly.
 
-  > sbatch /home/testuser/torque.submit
-
+```
+su - testuser -c 'qsub /home/testuser/torque.submit'
+qstat
+```
 
 ## How to build the image
 
 Build from this directory using the enclosed Dockerfile
 
-  > docker build -rm -t agaveapi/torque .
+    docker build -rm -t agaveapi/torque .
