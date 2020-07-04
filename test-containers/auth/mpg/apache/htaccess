@@ -1,9 +1,0 @@
-# Forward all http traffic to https. This should go in the web root folder.
-# On CentOS and RHEL, the default web root is /var/www/html. Check your 
-# httpd.conf file for the location on your system.
-
-Options +FollowSymlinks
-RewriteEngine On
-RewriteCond  %{HTTPS}  ^off$
-RewriteCond  %{HTTP_HOST} (.*)
-RewriteRule  ^(.*)/? https://%1/$1 [L,R]
